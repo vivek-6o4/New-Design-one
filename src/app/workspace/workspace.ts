@@ -19,4 +19,5 @@ import { CaseDetailsComponent } from '../case-details/case-details';
 })
 export class WorkspaceComponent {
   isResultsCollapsed = signal(false);
+  isSearchCollapsed = signal(false);
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CaseService, SearchCriteria } from '../case.service';
@@ -15,6 +15,13 @@ export class SearchCasesComponent {
   protected readonly criteria = this.caseService.searchCriteria;
   protected readonly directions = this.caseService.directions;
   protected readonly types = this.caseService.types;
+  isCollapsed = signal(false);
+collapsedChange = output<boolean>();
+
+toggleCollapse() {
+  this.isCollapsed.update(v => !v);
+  this.collapsedChange.emit(this.isCollapsed());
+}
 
   updateField(key: keyof SearchCriteria, value: string) {
     this.caseService.updateCriteria(key, value);

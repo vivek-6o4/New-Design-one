@@ -1,8 +1,7 @@
-<div class="workspace-layout">
-  <!-- Left Column -->
+<div class="workspace-layout" [class.search-collapsed]="isSearchCollapsed()">
   <div class="column left-column">
     <div class="panel-wrapper search-cases-panel">
-      <app-search-cases></app-search-cases>
+      <app-search-cases (collapsedChange)="isSearchCollapsed.set($event)"></app-search-cases>
     </div>
   </div>
 
