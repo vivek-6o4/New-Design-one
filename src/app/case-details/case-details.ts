@@ -1,0 +1,19 @@
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { CaseService } from '../case.service';
+
+@Component({
+  selector: 'app-case-details',
+  imports: [CommonModule, FormsModule],
+  templateUrl: './case-detail.html',
+  styleUrls: ['./case-detail.scss'],
+})
+export class CaseDetailsComponent {
+  private readonly caseService = inject(CaseService);
+  protected readonly selectedCase = this.caseService.selectedCase;
+
+  closePanel() {
+    this.caseService.selectedCase.set(null);
+  }
+}

@@ -1,0 +1,224 @@
+    :host {
+      display: block;
+      height: 100%;
+    }
+
+    .case-actions-container {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      font-family: inherit;
+    }
+
+    /* Header Bar */
+    .actions-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 48px;
+      padding: 0 16px;
+      border-bottom: 1px solid #e2e8f0;
+      background-color: #ffffff;
+      border-radius: 6px 6px 0 0;
+    }
+
+    .icon-btn-close {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      border-radius: 4px;
+      transition: background-color 0.1s;
+    }
+
+    .icon-btn-close:hover {
+      background-color: #f1f5f9;
+    }
+
+    .header-center {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 22px;
+      padding: 0 10px;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 12px;
+    }
+
+    .badge-blue {
+      background-color: #0088ff;
+      color: #ffffff;
+    }
+
+    .icon-btn-chevron {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      border-radius: 4px;
+    }
+
+    .icon-btn-chevron:hover {
+      background-color: #f1f5f9;
+    }
+
+    /* Form Body */
+    .actions-body {
+      flex: 1;
+      padding: 16px;
+      background-color: #fafbfc;
+    }
+
+    .actions-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-field-row {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .form-field label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .form-field input,
+    .form-field textarea,
+    .form-field select {
+      padding: 6px 10px;
+      font-size: 13px;
+      color: #334155;
+      background-color: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      width: 100%;
+      box-sizing: border-box;
+      outline: none;
+    }
+
+    .form-field textarea {
+      resize: vertical;
+    }
+
+    .select-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .select-wrapper select {
+      appearance: none;
+      -webkit-appearance: none;
+      padding-right: 24px;
+    }
+
+    .select-wrapper::after {
+      content: '▼';
+      font-size: 8px;
+      color: #64748b;
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    /* Footer Row */
+    .actions-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 52px;
+      padding: 0 16px;
+      border-top: 1px solid #e2e8f0;
+      background-color: #ffffff;
+      border-radius: 0 0 6px 6px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 32px;
+      padding: 0 16px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border: none;
+    }
+
+    .btn-back {
+      background-color: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #475569;
+    }
+
+    .btn-back:hover {
+      background-color: #f8fafc;
+      border-color: #94a3b8;
+    }
+
+    .btn-create {
+      background-color: #0088ff;
+      color: #ffffff;
+    }
+
+    .btn-create:hover:not([disabled]) {
+      background-color: #0077ee;
+    }
+
+    .btn-create[disabled] {
+      background-color: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    .no-case-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      min-height: 200px;
+      color: #94a3b8;
+      text-align: center;
+      gap: 12px;
+    }
+
+    .no-case-state p {
+      font-size: 13px;
+      margin: 0;
+    }

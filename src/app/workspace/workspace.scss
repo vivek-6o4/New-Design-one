@@ -1,0 +1,92 @@
+.workspace-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr 350px;
+      gap: 16px;
+      padding: 16px;
+      height: 100vh;
+      box-sizing: border-box;
+      background-color: #f1f5f9; /* Slate 100 bg */
+      overflow: hidden;
+    }
+
+    @media (max-width: 1200px) {
+      .workspace-layout {
+        grid-template-columns: 280px 1fr 300px;
+        gap: 12px;
+        padding: 12px;
+      }
+    }
+    @media (max-width: 992px) {
+      .workspace-layout {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        width: 100%;
+        overflow: visible !important;
+      }
+      .column {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+      }
+      .panel-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+      }
+    }
+    @media (min-width: 993px) and (max-height: 767px) {
+      .workspace-layout {
+        height: 820px;
+      }
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .left-column {
+      flex-shrink: 0;
+    }
+
+    .middle-column {
+      flex-grow: 1;
+      gap: 16px;
+    }
+
+    .right-column {
+      flex-shrink: 0;
+    }
+
+    .panel-wrapper {
+      display: flex;
+      flex-direction: column;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .search-cases-panel {
+      height: 100%;
+    }
+
+    .search-results-panel {
+      flex: 1 1 auto;
+      height: auto;
+      max-height: 450px;
+      min-height: 220px;
+    }
+
+    .case-details-wrapper {
+      flex: 1 1 auto;
+      height: auto;
+      overflow: hidden;
+    }
+
+    .edit-fields-panel {
+      height: 100%;
+    }

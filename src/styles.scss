@@ -1,0 +1,93 @@
+/* Global styles and typography configuration */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f4f6fa; /* Clean cool corporate grey-blue */
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* For desktop screens with sufficient height, lock viewport to fit 1 page */
+@media (min-width: 993px) and (min-height: 768px) {
+  html, body {
+    overflow: hidden;
+  }
+}
+
+/* For mobile/tablet or short laptop screens (zoom > 100%), enable scroll */
+@media (max-width: 992px), (max-height: 767px) {
+  html, body {
+    overflow-y: auto;
+    height: auto !important;
+  }
+}
+
+/* Tablet/Mobile vertical stack layout resets */
+@media (max-width: 992px) {
+  app-search-cases,
+  app-search-results,
+  app-case-details,
+  app-edit-fields {
+    height: auto !important;
+    display: block;
+    max-width: 100% !important;
+  }
+  
+  .search-cases-container,
+  .search-results-container,
+  .case-details-container,
+  .case-actions-container,
+  .panel-wrapper {
+    height: auto !important;
+    overflow: visible !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Custom Scrollbar styling for modern premium look */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Common form focus states */
+input:focus, select:focus, textarea:focus {
+  border-color: #0066ff !important;
+  box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.15) !important;
+  outline: none;
+}
+
+/* Base interactive items animations */
+button, input, select, textarea {
+  transition: all 0.15s ease-in-out;
+}
+
+/* Angular host elements block displays */
+app-root, app-workspace {
+  display: block;
+}
