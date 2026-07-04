@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CaseService, CaseResult } from '../case.service';
 
@@ -13,6 +13,12 @@ export class SearchResultsComponent {
 
   protected readonly results = this.caseService.searchResults;
   protected readonly selectedCase = this.caseService.selectedCase;
+
+  isCollapsed = signal(false);
+
+toggleCollapse() {
+  this.isCollapsed.update(v => !v);
+}
 
   selectCase(item: CaseResult) {
     this.caseService.selectedCase.set(item);

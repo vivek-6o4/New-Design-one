@@ -1,85 +1,96 @@
 <div class="case-actions-container">
-      <!-- Header Row -->
-      <div class="actions-header">
-        <button class="icon-btn-close" (click)="closePanel()">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-        
-        <div class="header-center">
-          <span class="header-title">Case Actions</span>
-          @if (selectedCase()) {
-            <span class="badge badge-blue">Case #{{selectedCase()?.caseNo}}</span>
-          }
-        </div>
+  <!-- Header Row -->
+  <div class="actions-header">
+    <button class="icon-btn-close" (click)="closePanel()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
 
-        <button class="icon-btn-chevron">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5">
-            <polyline points="18 15 12 9 6 15"></polyline>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Form Body -->
-      <div class="actions-body">
-        @if (selectedCase()) {
-          <div class="actions-form">
-            <!-- Row 1: Action, Route To, Date -->
-            <div class="form-field-row flex-row">
-              <div class="form-field col-action">
-                <label>Action</label>
-                <div class="select-wrapper">
-                  <select>
-                    <option value="">Choose action...</option>
-                    <option value="notice">Send Notice Letter</option>
-                    <option value="citation">Issue Citation</option>
-                    <option value="close">Close Case</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="form-field col-route">
-                <label>Route To</label>
-                <div class="select-wrapper">
-                  <select>
-                    <option value="">Select User</option>
-                    <option value="user1">John Doe</option>
-                    <option value="user2">Jane Smith</option>
-                    <option value="user3">Code Officer</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="form-field col-date">
-                <label>Date</label>
-                <input type="text" placeholder="MM/DD/YYYY" />
-              </div>
-            </div>
-
-            <!-- Row 2: Comments -->
-            <div class="form-field full-width">
-              <label>Comments</label>
-              <textarea rows="4" placeholder="Enter comments here..."></textarea>
-            </div>
-          </div>
-        } @else {
-          <div class="no-case-state">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
-            </svg>
-            <p>Select a case from the Search Results to view actions.</p>
-          </div>
-        }
-      </div>
-
-      <!-- Footer Action Row -->
-      <div class="actions-footer">
-        <button class="btn btn-back" (click)="goBack()">Back</button>
-        <button class="btn btn-create" (click)="createLetter()" [disabled]="!selectedCase()">Create Letter</button>
-      </div>
+    <div class="header-center">
+      <span class="header-title">Case Actions</span>
+      @if (selectedCase()) {
+        <span class="badge badge-blue">Case #{{selectedCase()?.caseNo}}</span>
+      }
     </div>
+
+    <button class="icon-btn-chevron" (click)="toggleCollapse()" [attr.aria-label]="isCollapsed() ? 'Expand' : 'Collapse'">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5">
+        @if (isCollapsed()) {
+          <!-- Down arrow: expand -->
+          <polyline points="6 9 12 15 18 9"></polyline>
+        } @else {
+          <!-- Up arrow: collapse -->
+          <polyline points="18 15 12 9 6 15"></polyline>
+        }
+      </svg>
+    </button>
+  </div>
+
+  <!-- Collapsible Content: Body + Footer -->
+  <div class="actions-collapsible" [class.collapsed]="isCollapsed()">
+
+    <!-- Form Body -->
+    <div class="actions-body">
+      @if (selectedCase()) {
+        <div class="actions-form">
+          <!-- Row 1: Action, Route To, Date -->
+          <div class="form-field-row flex-row">
+            <div class="form-field col-action">
+              <label>Action</label>
+              <div class="select-wrapper">
+                <select>
+                  <option value="">Choose action...</option>
+                  <option value="notice">Send Notice Letter</option>
+                  <option value="citation">Issue Citation</option>
+                  <option value="close">Close Case</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-field col-route">
+              <label>Route To</label>
+              <div class="select-wrapper">
+                <select>
+                  <option value="">Select User</option>
+                  <option value="user1">John Doe</option>
+                  <option value="user2">Jane Smith</option>
+                  <option value="user3">Code Officer</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-field col-date">
+              <label>Date</label>
+              <input type="text" placeholder="MM/DD/YYYY" />
+            </div>
+          </div>
+
+          <!-- Row 2: Comments -->
+          <div class="form-field full-width">
+            <label>Comments</label>
+            <textarea rows="4" placeholder="Enter comments here..."></textarea>
+          </div>
+        </div>
+      } @else {
+        <div class="no-case-state">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+          </svg>
+          <p>Select a case from the Search Results to view actions.</p>
+        </div>
+      }
+    </div>
+
+    <!-- Footer Action Row -->
+    <div class="actions-footer">
+      <button class="btn btn-back" (click)="goBack()">Back</button>
+      <button class="btn btn-create" (click)="createLetter()" [disabled]="!selectedCase()">Create Letter</button>
+    </div>
+
+  </div>
+</div>

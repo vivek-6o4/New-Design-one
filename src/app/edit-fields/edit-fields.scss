@@ -1,6 +1,6 @@
     :host {
       display: block;
-      height: 100%;
+      height: auto;
     }
 
     .case-actions-container {
@@ -9,7 +9,7 @@
       border-radius: 6px;
       display: flex;
       flex-direction: column;
-      height: 100%;
+      height: auto;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
       font-family: inherit;
     }
@@ -222,3 +222,33 @@
       font-size: 13px;
       margin: 0;
     }
+
+    .icon-btn-chevron {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.icon-btn-chevron:hover {
+  background-color: #f1f5f9;
+}
+
+/* Collapsible wrapper — groups body + footer so both hide together */
+.actions-collapsible {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  overflow: hidden;
+  max-height: 600px;   /* large enough to fit content when expanded */
+  transition: max-height 0.25s ease, opacity 0.2s ease;
+  opacity: 1;
+}
+
+.actions-collapsible.collapsed {
+  max-height: 0;
+  opacity: 0;
+}

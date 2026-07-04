@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CaseService } from '../case.service';
@@ -16,4 +16,10 @@ export class CaseDetailsComponent {
   closePanel() {
     this.caseService.selectedCase.set(null);
   }
+
+  isCollapsed = signal(false);
+
+toggleCollapse() {
+  this.isCollapsed.update(v => !v);
+}
 }

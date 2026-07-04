@@ -1,6 +1,6 @@
     :host {
       display: block;
-      height: 100%;
+      height: auto;
     }
 
     .case-details-container {
@@ -11,7 +11,7 @@
       flex-direction: column;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
       font-family: inherit;
-      height: 100%;
+      height: auto;
       animation: slideUp 0.2s ease-out;
     }
 
@@ -81,20 +81,6 @@
       color: #ffffff;
     }
 
-    .icon-btn-chevron {
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      padding: 4px;
-      display: flex;
-      align-items: center;
-      border-radius: 4px;
-    }
-
-    .icon-btn-chevron:hover {
-      background-color: #f1f5f9;
-    }
-
     /* Form Body */
     .details-body {
       padding: 16px;
@@ -155,3 +141,38 @@
       color: #64748b !important;
       cursor: not-allowed;
     }
+
+    .icon-btn-chevron {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.icon-btn-chevron:hover {
+  background-color: #f1f5f9;
+}
+
+/* Collapsible body */
+.details-body {
+  padding: 16px;
+  background-color: #fafbfc;
+  border-radius: 0 0 6px 6px;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 500px;          /* large enough to fit content when expanded */
+  transition: max-height 0.25s ease, padding 0.25s ease, opacity 0.2s ease;
+  opacity: 1;
+}
+
+.details-body.collapsed {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  opacity: 0;
+}

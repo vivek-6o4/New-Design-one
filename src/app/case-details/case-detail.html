@@ -1,62 +1,68 @@
 <div class="case-details-container" *ngIf="selectedCase()">
-      <!-- Header Row -->
-      <div class="details-header">
-        <button class="icon-btn-close" (click)="closePanel()">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-        
-        <div class="header-center">
-          <span class="header-title">Open Case</span>
-          <span class="badge badge-blue">Case #{{selectedCase()?.caseNo}}</span>
-          <span class="badge badge-grey">{{selectedCase()?.address}}</span>
-        </div>
+  <!-- Header Row -->
+  <div class="details-header">
+    <button class="icon-btn-close" (click)="closePanel()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
 
-        <button class="icon-btn-chevron">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5">
-            <polyline points="18 15 12 9 6 15"></polyline>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Form Body -->
-      <div class="details-body">
-        <div class="form-grid">
-          
-          <!-- Row 1: Case #, Open Date, Program, Inspector -->
-          <div class="form-field col-3">
-            <label>Case #</label>
-            <input type="text" [value]="selectedCase()?.caseNo" readonly class="input-disabled" />
-          </div>
-          
-          <div class="form-field col-3">
-            <label>Open Date</label>
-            <input type="text" [value]="selectedCase()?.openDate" placeholder="MM/DD/YYYY" />
-          </div>
-
-          <div class="form-field col-3">
-            <label>Program</label>
-            <input type="text" [value]="selectedCase()?.program" />
-          </div>
-
-          <div class="form-field col-3">
-            <label>Inspector</label>
-            <input type="text" [value]="selectedCase()?.inspector" />
-          </div>
-
-          <!-- Row 2: Address, Case Desc -->
-          <div class="form-field col-6">
-            <label>Address</label>
-            <textarea rows="2" [value]="selectedCase()?.address"></textarea>
-          </div>
-
-          <div class="form-field col-6">
-            <label>Case Desc</label>
-            <textarea rows="2" [value]="selectedCase()?.notions"></textarea>
-          </div>
-
-        </div>
-      </div>
+    <div class="header-center">
+      <span class="header-title">Open Case</span>
+      <span class="badge badge-blue">Case #{{selectedCase()?.caseNo}}</span>
+      <span class="badge badge-grey">{{selectedCase()?.address}}</span>
     </div>
+
+    <button class="icon-btn-chevron" (click)="toggleCollapse()" [attr.aria-label]="isCollapsed() ? 'Expand' : 'Collapse'">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5">
+        @if (isCollapsed()) {
+          <!-- Down arrow: expand -->
+          <polyline points="6 9 12 15 18 9"></polyline>
+        } @else {
+          <!-- Up arrow: collapse -->
+          <polyline points="18 15 12 9 6 15"></polyline>
+        }
+      </svg>
+    </button>
+  </div>
+
+  <!-- Form Body -->
+  <div class="details-body" [class.collapsed]="isCollapsed()">
+    <div class="form-grid">
+
+      <!-- Row 1: Case #, Open Date, Program, Inspector -->
+      <div class="form-field col-3">
+        <label>Case #</label>
+        <input type="text" [value]="selectedCase()?.caseNo" readonly class="input-disabled" />
+      </div>
+
+      <div class="form-field col-3">
+        <label>Open Date</label>
+        <input type="text" [value]="selectedCase()?.openDate" placeholder="MM/DD/YYYY" />
+      </div>
+
+      <div class="form-field col-3">
+        <label>Program</label>
+        <input type="text" [value]="selectedCase()?.program" />
+      </div>
+
+      <div class="form-field col-3">
+        <label>Inspector</label>
+        <input type="text" [value]="selectedCase()?.inspector" />
+      </div>
+
+      <!-- Row 2: Address, Case Desc -->
+      <div class="form-field col-6">
+        <label>Address</label>
+        <textarea rows="2" [value]="selectedCase()?.address"></textarea>
+      </div>
+
+      <div class="form-field col-6">
+        <label>Case Desc</label>
+        <textarea rows="2" [value]="selectedCase()?.notions"></textarea>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,92 +1,128 @@
+/* ==========================================================================
+   Global reset — prevents default body margin from adding to page scroll
+   ========================================================================== */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Workspace Layout
+   ========================================================================== */
 .workspace-layout {
-      display: grid;
-      grid-template-columns: 320px 1fr 350px;
-      gap: 16px;
-      padding: 16px;
-      height: 100vh;
-      box-sizing: border-box;
-      background-color: #f1f5f9; /* Slate 100 bg */
-      overflow: hidden;
-    }
+  display: grid;
+  grid-template-columns: 320px 1fr 350px;
+  gap: 16px;
+  padding: 16px;
+  height: 100vh;
+  min-height: 0;
+  box-sizing: border-box;
+  background-color: #f1f5f9; /* Slate 100 bg */
+  overflow: hidden;
+}
 
-    @media (max-width: 1200px) {
-      .workspace-layout {
-        grid-template-columns: 280px 1fr 300px;
-        gap: 12px;
-        padding: 12px;
-      }
-    }
-    @media (max-width: 992px) {
-      .workspace-layout {
-        display: flex;
-        flex-direction: column;
-        height: auto;
-        width: 100%;
-        overflow: visible !important;
-      }
-      .column {
-        width: 100% !important;
-        max-width: 100% !important;
-        height: auto !important;
-        overflow: visible !important;
-      }
-      .panel-wrapper {
-        width: 100% !important;
-        max-width: 100% !important;
-        height: auto !important;
-        overflow: visible !important;
-      }
-    }
-    @media (min-width: 993px) and (max-height: 767px) {
-      .workspace-layout {
-        height: 820px;
-      }
-    }
+@media (max-width: 1200px) {
+  .workspace-layout {
+    grid-template-columns: 280px 1fr 300px;
+    gap: 12px;
+    padding: 12px;
+  }
+}
 
-    .column {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      overflow: hidden;
-    }
+@media (max-width: 992px) {
+  .workspace-layout {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+    overflow: visible !important;
+  }
 
-    .left-column {
-      flex-shrink: 0;
-    }
+  .column {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
 
-    .middle-column {
-      flex-grow: 1;
-      gap: 16px;
-    }
+  .panel-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+}
 
-    .right-column {
-      flex-shrink: 0;
-    }
+@media (min-width: 993px) and (max-height: 767px) {
+  .workspace-layout {
+    height: 820px;
+  }
+}
 
-    .panel-wrapper {
-      display: flex;
-      flex-direction: column;
-      border-radius: 8px;
-      overflow: hidden;
-    }
+/* ==========================================================================
+   Columns
+   ========================================================================== */
+.column {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
 
-    .search-cases-panel {
-      height: 100%;
-    }
+.left-column {
+  flex-shrink: 0;
+  min-height: 0;
+}
 
-    .search-results-panel {
-      flex: 1 1 auto;
-      height: auto;
-      max-height: 450px;
-      min-height: 220px;
-    }
+.middle-column {
+  flex-grow: 1;
+  min-height: 0;
+  gap: 16px;
+}
 
-    .case-details-wrapper {
-      flex: 1 1 auto;
-      height: auto;
-      overflow: hidden;
-    }
+.right-column {
+  flex-shrink: 0;
+  min-height: 0;
+}
 
-    .edit-fields-panel {
-      height: 100%;
-    }
+/* ==========================================================================
+   Panels
+   ========================================================================== */
+.panel-wrapper {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.search-cases-panel {
+  height: 100%;
+}
+
+.search-results-panel {
+  flex: 0 1 auto;
+  height: auto;
+  max-height: 450px;
+  min-height: 220px;
+}
+
+.search-results-panel.is-collapsed {
+  min-height: 0;
+}
+
+.case-details-wrapper {
+  flex: 1 1 auto; /* absorbs remaining space in middle column */
+  height: auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.edit-fields-panel {
+  height: 100%;
+}

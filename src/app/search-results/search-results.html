@@ -1,107 +1,117 @@
 <div class="search-results-container">
-      <!-- Panel Header -->
-      <div class="panel-header">
-        <h3>Search Results</h3>
-        <span class="collapse-icon">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </span>
+  <!-- Panel Header -->
+  <div class="panel-header">
+    <h3>Search Results</h3>
+    <button class="collapse-icon" (click)="toggleCollapse()" [attr.aria-label]="isCollapsed() ? 'Expand' : 'Collapse'">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        @if (isCollapsed()) {
+          <!-- Down arrow: expand -->
+          <polyline points="6 9 12 15 18 9"></polyline>
+        } @else {
+          <!-- Up arrow: collapse -->
+          <polyline points="18 15 12 9 6 15"></polyline>
+        }
+      </svg>
+    </button>
+  </div>
+
+  <!-- Collapsible Content: Toolbar + Table + Footer -->
+  <div class="results-collapsible" [class.collapsed]="isCollapsed()">
+
+    <!-- Toolbar -->
+    <div class="results-toolbar">
+      <div class="show-per-page">
+        Show
+        <select class="select-sm">
+          <option value="10">10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+        </select>
+        per page
       </div>
 
-      <!-- Toolbar -->
-      <div class="results-toolbar">
-        <div class="show-per-page">
-          Show 
-          <select class="select-sm">
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-          </select>
-          per page
-        </div>
-        
-        <div class="filter-wrapper">
-          <label>Filter:</label>
-          <input type="text" placeholder="" class="input-sm" />
-        </div>
+      <div class="filter-wrapper">
+        <label>Filter:</label>
+        <input type="text" placeholder="" class="input-sm" />
       </div>
-
-      <!-- Table Container -->
-      <div class="table-responsive">
-        <table class="results-table">
-          <thead>
-            <tr>
-              <th>Case # <span class="sort-icon">▲</span></th>
-              <th>Address <span class="sort-icon">▲</span></th>
-              <th>Program <span class="sort-icon">▲</span></th>
-              <th>Status <span class="sort-icon">▲</span></th>
-              <th>Open Date <span class="sort-icon">▲</span></th>
-              <th>Close Date <span class="sort-icon">▲</span></th>
-              <th>Inspector <span class="sort-icon">▲</span></th>
-              <th>2nd Inspector <span class="sort-icon">▲</span></th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            @if (results().length === 0) {
-              <tr>
-                <td colspan="9" class="empty-state">No cases found. Enter query above and search.</td>
-              </tr>
-            } @else {
-              @for (item of results(); track item.caseNo) {
-                <tr 
-                  [class.selected]="selectedCase()?.caseNo === item.caseNo"
-                  (click)="selectCase(item)">
-                  <td class="bold-text">{{item.caseNo}}</td>
-                  <td>{{item.address}}</td>
-                  <td>{{item.program}}</td>
-                  <td>
-                    <span class="status-badge" [class]="item.status.toLowerCase()">
-                      <span class="badge-dot"></span>
-                      {{item.status}}
-                    </span>
-                  </td>
-                  <td>{{item.openDate}}</td>
-                  <td>{{item.closeDate || ''}}</td>
-                  <td>{{item.inspector}}</td>
-                  <td>{{item.secondInspector || ''}}</td>
-                  <td>
-                    <button class="action-btn" (click)="viewLetter(item, $event)">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                      </svg>
-                      View Letter
-                    </button>
-                  </td>
-                </tr>
-                <tr class="notions-row" [class.selected]="selectedCase()?.caseNo === item.caseNo">
-                  <td colspan="9">
-                    <div class="notions-content">
-                      <p class="notions-text">{{item.notions || 'No notions.'}}</p>
-                    </div>
-                  </td>
-                </tr>
-              }
-            }
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Footer & Pagination -->
-      <div class="results-footer">
-        <div class="showing-count">
-          Showing {{results().length ? '1-' + results().length : '0'}} of {{results().length}} cases
-        </div>
-        
-        <div class="pagination-controls">
-          <button class="pag-btn" disabled>&laquo;&laquo;</button>
-          <button class="pag-btn" disabled>&laquo;</button>
-          <button class="pag-btn active">1</button>
-          <button class="pag-btn" disabled>&raquo;</button>
-          <button class="pag-btn" disabled>&raquo;&raquo;</button>
-        </div>
-      </div>
-
     </div>
+
+    <!-- Table Container -->
+    <div class="table-responsive">
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Case # <span class="sort-icon">▲</span></th>
+            <th>Address <span class="sort-icon">▲</span></th>
+            <th>Program <span class="sort-icon">▲</span></th>
+            <th>Status <span class="sort-icon">▲</span></th>
+            <th>Open Date <span class="sort-icon">▲</span></th>
+            <th>Close Date <span class="sort-icon">▲</span></th>
+            <th>Inspector <span class="sort-icon">▲</span></th>
+            <th>2nd Inspector <span class="sort-icon">▲</span></th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (results().length === 0) {
+            <tr>
+              <td colspan="9" class="empty-state">No cases found. Enter query above and search.</td>
+            </tr>
+          } @else {
+            @for (item of results(); track item.caseNo) {
+              <tr
+                [class.selected]="selectedCase()?.caseNo === item.caseNo"
+                (click)="selectCase(item)">
+                <td class="bold-text">{{item.caseNo}}</td>
+                <td>{{item.address}}</td>
+                <td>{{item.program}}</td>
+                <td>
+                  <span class="status-badge" [class]="item.status.toLowerCase()">
+                    <span class="badge-dot"></span>
+                    {{item.status}}
+                  </span>
+                </td>
+                <td>{{item.openDate}}</td>
+                <td>{{item.closeDate || ''}}</td>
+                <td>{{item.inspector}}</td>
+                <td>{{item.secondInspector || ''}}</td>
+                <td>
+                  <button class="action-btn" (click)="viewLetter(item, $event)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                      <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    View Letter
+                  </button>
+                </td>
+              </tr>
+              <tr class="notions-row" [class.selected]="selectedCase()?.caseNo === item.caseNo">
+                <td colspan="9">
+                  <div class="notions-content">
+                    <p class="notions-text">{{item.notions || 'No notions.'}}</p>
+                  </div>
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Footer & Pagination -->
+    <div class="results-footer">
+      <div class="showing-count">
+        Showing {{results().length ? '1-' + results().length : '0'}} of {{results().length}} cases
+      </div>
+
+      <div class="pagination-controls">
+        <button class="pag-btn" disabled>&laquo;&laquo;</button>
+        <button class="pag-btn" disabled>&laquo;</button>
+        <button class="pag-btn active">1</button>
+        <button class="pag-btn" disabled>&raquo;</button>
+        <button class="pag-btn" disabled>&raquo;&raquo;</button>
+      </div>
+    </div>
+
+  </div>
+</div>

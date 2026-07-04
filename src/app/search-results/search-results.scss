@@ -1,29 +1,46 @@
 :host {
       display: block;
-      height: 100%;
+      height: auto;
     }
 
     .search-results-container {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 16px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-      position: relative;
-      font-family: inherit;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  /* remove padding: 16px from here */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
 
-    .panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #f1f5f9;
-    }
+.panel-header {
+  padding: 16px 16px 8px 16px;   /* padding moved here */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.results-collapsible {
+  padding: 0 16px 16px 16px;      /* padding moved here */
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  max-height: 700px;
+  transition: max-height 0.25s ease, opacity 0.2s ease;
+  opacity: 1;
+}
+
+.results-collapsible.collapsed {
+  max-height: 0;
+  opacity: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
 
     .panel-header h3 {
       font-size: 15px;
@@ -81,13 +98,14 @@
     }
 
     .table-responsive {
-      width: 100%;
-      overflow-x: auto;
-      overflow-y: auto;
-      border: 1px solid #e2e8f0;
-      border-radius: 6px;
-      flex: 1 1 auto;
-    }
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  flex: 0 1 auto;      /* was: flex: 1 1 auto */
+  max-height: 100%;    /* prevents it from exceeding the card */
+}
 
     .results-table {
       width: 100%;
@@ -322,3 +340,19 @@
     .settings-gear:hover {
       background: #0052cc;
     }
+
+    .collapse-icon {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  color: #64748b;
+  transition: background-color 0.1s;
+}
+
+.collapse-icon:hover {
+  background-color: #f1f5f9;
+}
