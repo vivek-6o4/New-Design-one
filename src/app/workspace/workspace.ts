@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchCasesComponent } from '../search-cases/search-cases';
 import { SearchResultsComponent } from '../search-results/search-results';
@@ -17,4 +17,6 @@ import { CaseDetailsComponent } from '../case-details/case-details';
   templateUrl: './workspace.html',
   styleUrls: ['./workspace.scss']
 })
-export class WorkspaceComponent {}
+export class WorkspaceComponent {
+  isResultsCollapsed = signal(false);
+}
