@@ -1,0 +1,117 @@
+{
+    "status": "SUCCESS",
+    "statusCode": 200,
+    "errorMessage": null,
+    "data": [
+        {
+            "streetType": "AL",
+            "streetTypeDesc": "ALLEY",
+            "activeFlag": "Y"
+        },
+        {
+            "streetType": "AV",
+            "streetTypeDesc": "AVENUE",
+            "activeFlag": "Y"
+        },
+        {
+            "streetType": "BL",
+            "streetTypeDesc": "BOULEVARD",
+            "activeFlag": "Y"
+        },
+        {
+            "streetType": "CL",
+            "streetTypeDesc": "CIRCLE",
+            "activeFlag": "Y"
+        },
+        {
+            "streetType": "CM",
+            "streetTypeDesc": "Common",
+            "activeFlag": "Y"
+        },
+        {
+            "streetType": "CT",
+            "streetTypeDesc": "COURT",
+            "activeFlag": "Y"
+        },
+        {
+            "streetType": "DR",
+            "streetTypeDesc": "DRIVE",
+            "activeFlag": "Y"
+        },
+        {
+            "streetType": "EX",
+            "streetTypeDesc": "EXPRESSWAY",
+            "activeFlag": "Y"
+        },
+        {
+            "streetType": "FY",
+            "streetTypeDesc": "FREEWAY",
+            "activeFlag": "Y"
+        },
+        {
+            "streetType": "HY",
+            "streetTypeDesc": "HIGHWAY",
+            "activeFlag": "Y"
+        },
+        {
+            "streetType": "LD",
+            "streetTypeDesc": "LANDING",
+            "activeFlag": "Y"
+        },
+        {
+            "streetType": "LN",
+            "streetTypeDesc": "LANE",
+            "activeFlag": "Y"
+        },
+        {
+            "streetType": "LP",
+            "streetTypeDesc": "LOOP",
+            "activeFlag": "Y"
+        },
+        {
+            "streetType": "PL",
+            "streetTypeDesc": "PLACE",
+            "activeFlag": "Y"
+        },
+        {
+            "streetType": "PY",
+            "streetTypeDesc": "PARKWAY",
+            "activeFlag": "Y"
+        },
+        {
+            "streetType": "RD",
+            "streetTypeDesc": "ROAD",
+            "activeFlag": "Y"
+        },
+        {
+            "streetType": "SQ",
+            "streetTypeDesc": "SQUARE",
+            "activeFlag": "Y"
+        },
+        {
+            "streetType": "ST",
+            "streetTypeDesc": "STREET",
+            "activeFlag": "Y"
+        },
+        {
+            "streetType": "TR",
+            "streetTypeDesc": "TERRACE",
+            "activeFlag": "Y"
+        },
+        {
+            "streetType": "VI",
+            "streetTypeDesc": "VISTA",
+            "activeFlag": "Y"
+        },
+        {
+            "streetType": "WK",
+            "streetTypeDesc": "WALKWAY",
+            "activeFlag": "Y"
+        },
+        {
+            "streetType": "WY",
+            "streetTypeDesc": "WAY",
+            "activeFlag": "Y"
+        }
+    ]
+}
