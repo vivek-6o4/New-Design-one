@@ -33,12 +33,16 @@ export class SearchResultsComponent {
   }
 
   getStatusLabel(code: string): string {
-    return this.statusMap[code] ?? code ?? 'Unknown';
-  }
+  if (code === 'O') return 'Open';
+  if (code === 'C') return 'Closed';
+  return code ?? 'Unknown'; // show the raw code as-is (e.g. "AHB", "P")
+}
 
-  getStatusClass(code: string): string {
-    return this.getStatusLabel(code).toLowerCase();
-  }
+getStatusClass(code: string): string {
+  if (code === 'O') return 'open';
+  if (code === 'C') return 'closed';
+  return 'pending'; // any other code still gets the yellow style, but label stays untouched
+}
 
   getLatestLetterUrl(item: any): string | null {
     if (!item?.caseActions?.length) return null;

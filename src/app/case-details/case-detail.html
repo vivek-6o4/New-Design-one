@@ -10,8 +10,8 @@
 
     <div class="header-center">
       <span class="header-title">Open Case</span>
-      <span class="badge badge-blue">Case #{{selectedCase()?.caseNo}}</span>
-      <span class="badge badge-grey">{{selectedCase()?.address}}</span>
+      <span class="badge badge-blue">Case #{{selectedCase()?.caseNumber}}</span>
+      <span class="badge badge-grey">{{formatAddress(selectedCase())}}</span>
     </div>
 
     <button class="icon-btn-chevron" (click)="toggleCollapse()" [attr.aria-label]="isCollapsed() ? 'Expand' : 'Collapse'">
@@ -34,33 +34,33 @@
       <!-- Row 1: Case #, Open Date, Program, Inspector -->
       <div class="form-field col-3">
         <label>Case #</label>
-        <input type="text" [value]="selectedCase()?.caseNo" readonly class="input-disabled" />
+        <input type="text" [value]="selectedCase()?.caseNumber" readonly class="input-disabled" />
       </div>
 
       <div class="form-field col-3">
         <label>Open Date</label>
-        <input type="text" [value]="selectedCase()?.openDate" placeholder="MM/DD/YYYY" />
+        <input type="text" [value]="selectedCase()?.opendate ? (selectedCase()?.opendate | date:'MM/dd/yyyy') : ''" placeholder="MM/DD/YYYY" />
       </div>
 
       <div class="form-field col-3">
         <label>Program</label>
-        <input type="text" [value]="selectedCase()?.program" />
+        <input type="text" [value]="selectedCase()?.programcode" />
       </div>
 
       <div class="form-field col-3">
         <label>Inspector</label>
-        <input type="text" [value]="selectedCase()?.inspector" />
+        <input type="text" [value]="selectedCase()?.inspector1id" />
       </div>
 
       <!-- Row 2: Address, Case Desc -->
       <div class="form-field col-6">
         <label>Address</label>
-        <textarea rows="2" [value]="selectedCase()?.address"></textarea>
+        <textarea rows="2" [value]="formatAddress(selectedCase())"></textarea>
       </div>
 
       <div class="form-field col-6">
         <label>Case Desc</label>
-        <textarea rows="2" [value]="selectedCase()?.notions"></textarea>
+        <textarea rows="2" [value]="selectedCase()?.description"></textarea>
       </div>
 
     </div>

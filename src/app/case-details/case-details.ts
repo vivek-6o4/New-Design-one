@@ -22,4 +22,12 @@ export class CaseDetailsComponent {
 toggleCollapse() {
   this.isCollapsed.update(v => !v);
 }
+
+formatAddress(item: any): string {
+  const a = item?.caseaddress;
+  if (!a) return '';
+  const unit = a.unitNumber?.trim() ? ` #${a.unitNumber.trim()}` : '';
+  const line1 = `${a.streetNumber} ${a.streetDirection ?? ''} ${a.streetName} ${a.streetType}${unit}`.replace(/\s+/g, ' ').trim();
+  return `${line1}`;
+}
 }

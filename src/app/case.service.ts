@@ -71,7 +71,7 @@ export class CaseService {
 
   constructor() {
     // Initial perform search to mimic screenshot having a loaded result
-    this.performSearch();
+    // this.performSearch();
   }
 
   updateCriteria(key: keyof SearchCriteria, value: string) {
@@ -116,7 +116,7 @@ export class CaseService {
     this.isSearched.set(true);
 
     // Auto-select first result if available
-    this.selectedCase.set(results.length > 0 ? results[0] : null);
+    // this.selectedCase.set(results.length > 0 ? results[0] : null);
   }
 
   resetSearch() {
