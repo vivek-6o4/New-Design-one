@@ -11,7 +11,7 @@
     <div class="header-center">
       <span class="header-title">Case Actions</span>
       @if (selectedCase()) {
-        <span class="badge badge-blue">Case #{{selectedCase()?.caseNo}}</span>
+        <span class="badge badge-blue">Case #{{selectedCase()?.caseNumber}}</span>
       }
     </div>
 
@@ -40,38 +40,70 @@
             <div class="form-field col-action">
               <label>Action</label>
               <div class="select-wrapper">
-                <select>
+                <select
+                  [(ngModel)]="actionValue"
+                  [class.input-error]="actionError()"
+                  (change)="actionError.set(null)">
                   <option value="">Choose action...</option>
                   <option value="notice">Send Notice Letter</option>
                   <option value="citation">Issue Citation</option>
                   <option value="close">Close Case</option>
                 </select>
               </div>
+              @if (actionError()) {
+                <span class="field-error">{{ actionError() }}</span>
+              }
             </div>
 
             <div class="form-field col-route">
               <label>Route To</label>
               <div class="select-wrapper">
-                <select>
+                <select
+                  [(ngModel)]="routeToValue"
+                  [class.input-error]="routeToError()"
+                  (change)="routeToError.set(null)">
                   <option value="">Select User</option>
                   <option value="user1">John Doe</option>
                   <option value="user2">Jane Smith</option>
                   <option value="user3">Code Officer</option>
                 </select>
               </div>
+              @if (routeToError()) {
+                <span class="field-error">{{ routeToError() }}</span>
+              }
             </div>
 
             <div class="form-field col-date">
               <label>Date</label>
-              <input type="text" placeholder="MM/DD/YYYY" />
+              <input type="text" placeholder="MM/DD/YYYY" [(ngModel)]="dateValue" />
             </div>
           </div>
 
           <!-- Row 2: Comments -->
           <div class="form-field full-width">
             <label>Comments</label>
-            <textarea rows="4" placeholder="Enter comments here..."></textarea>
+            <textarea rows="4" placeholder="Enter comments here..." [(ngModel)]="commentsValue"></textarea>
           </div>
+
+          <!-- NEW: Success banner -->
+          @if (successUrl()) {
+            <div class="success-banner">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+              </svg>
+              <span class="success-text">
+                Your Letter has been created successfully at
+                <a [href]="successUrl()" target="_blank" rel="noopener">{{ successUrl() }}</a>
+              </span>
+              <button class="success-close" (click)="dismissSuccess()" aria-label="Dismiss">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+          }
         </div>
       } @else {
         <div class="no-case-state">

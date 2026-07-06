@@ -27,7 +27,12 @@
 
       <div class="filter-wrapper">
         <label>Filter:</label>
-        <input type="text" placeholder="" class="input-sm" />
+        <input
+          type="text"
+          placeholder="Search all columns..."
+          class="input-sm"
+          [value]="filterText()"
+          (input)="onFilterInput($event)" />
       </div>
     </div>
 
@@ -47,14 +52,20 @@
           </tr>
         </thead>
         <tbody>
-          @if (results().length === 0) {
+          @if (filteredResults().length === 0) {
             <tr>
-              <td colspan="9" class="empty-state">No cases found. Enter query above and search.</td>
+              <td colspan="9" class="empty-state">
+                {{ results().length === 0 ? 'No cases found. Enter query above and search.' : 'No matching records found.' }}
+              </td>
             </tr>
           } @else {
-            @for (item of results(); track item.id) {
+            @for (item of filteredResults(); track item.id) {
               <tr
+                class="case-row"
                 [class.selected]="selectedCase()?.id === item.id"
+                [class.row-hover]="hoveredRowId() === item.id"
+                (mouseenter)="hoveredRowId.set(item.id)"
+                (mouseleave)="hoveredRowId.set(null)"
                 (click)="selectCase(item)">
                 <td class="bold-text">{{ item.caseNumber }}</td>
                 <td>
@@ -94,7 +105,13 @@
                   </button>
                 </td>
               </tr>
-              <tr class="notions-row" [class.selected]="selectedCase()?.id === item.id">
+              <tr
+                class="notions-row"
+                [class.selected]="selectedCase()?.id === item.id"
+                [class.row-hover]="hoveredRowId() === item.id"
+                (mouseenter)="hoveredRowId.set(item.id)"
+                (mouseleave)="hoveredRowId.set(null)"
+                (click)="selectCase(item)">
                 <td colspan="9">
                   <div class="notions-content">
                     <p class="notions-text">{{ item.description || 'No notions.' }}</p>
@@ -109,7 +126,7 @@
 
     <div class="results-footer">
       <div class="showing-count">
-        Showing {{ results().length ? '1-' + results().length : '0' }} of {{ results().length }} cases
+        Showing {{ filteredResults().length ? '1-' + filteredResults().length : '0' }} of {{ filteredResults().length }} cases
       </div>
 
       <div class="pagination-controls">

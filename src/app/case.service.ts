@@ -1,4 +1,4 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, effect } from '@angular/core';
 import mockCaseData from '../data/CaseSearch.json';
 
 export interface DocumentFile {
@@ -72,6 +72,11 @@ export class CaseService {
   constructor() {
     // Initial perform search to mimic screenshot having a loaded result
     // this.performSearch();
+    effect(() => {
+      if (this.searchResults().length === 0) {
+        this.selectedCase.set(null);
+      }
+    });
   }
 
   updateCriteria(key: keyof SearchCriteria, value: string) {
