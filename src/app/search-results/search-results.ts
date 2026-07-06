@@ -1,6 +1,6 @@
 import { Component, inject, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CaseService, CaseResult } from '../case.service';
+import { CaseService } from '../case.service';
 
 @Component({
   selector: 'app-search-results',
@@ -15,22 +15,48 @@ export class SearchResultsComponent {
   protected readonly selectedCase = this.caseService.selectedCase;
 
   isCollapsed = signal(false);
-collapsedChange = output<boolean>();
+  collapsedChange = output<boolean>();
 
-toggleCollapse() {
-  this.isCollapsed.update(v => !v);
-  this.collapsedChange.emit(this.isCollapsed());
-}
+  private readonly statusMap: Record<string, string> = {
+    O: 'Open',
+    C: 'Closed',
+    P: 'Pending',
+  };
 
-  selectCase(item: CaseResult) {
+  toggleCollapse() {
+    this.isCollapsed.update(v => !v);
+    this.collapsedChange.emit(this.isCollapsed());
+  }
+
+  selectCase(item: any) {
     this.caseService.selectedCase.set(item);
   }
 
-  viewLetter(item: CaseResult, event: Event) {
-    event.stopPropagation(); // Avoid triggering row selection twice
+  getStatusLabel(code: string): string {
+    return this.statusMap[code] ?? code ?? 'Unknown';
+  }
+
+  getStatusClass(code: string): string {
+    return this.getStatusLabel(code).toLowerCase();
+  }
+
+  getLatestLetterUrl(item: any): string | null {
+    if (!item?.caseActions?.length) return null;
+    const latest = [...item.caseActions].sort(
+      (a: any, b: any) => new Date(b.actionDate).getTime() - new Date(a.actionDate).getTime()
+    )[0];
+    return latest?.caseActionFiles?.[0]?.physicalfilename ?? null;
+  }
+
+  viewLetter(item: any, event: Event) {
+    event.stopPropagation();
     this.caseService.selectedCase.set(item);
-    
-    // Automatically select violation letter template if not set
+
+    const url = this.getLatestLetterUrl(item);
+    if (url) {
+      window.open(url, '_blank');
+    }
+
     if (!this.caseService.selectedTemplate()) {
       this.caseService.setTemplate('Notice of Violation Letter');
     }

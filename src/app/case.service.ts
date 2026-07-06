@@ -1,4 +1,5 @@
 import { Injectable, signal, computed } from '@angular/core';
+import mockCaseData from '../data/CaseSearch.json';
 
 export interface DocumentFile {
   id: string;
@@ -17,18 +18,6 @@ export interface SearchCriteria {
   apn: string;
 }
 
-export interface CaseResult {
-  caseNo: string;
-  address: string;
-  program: string;
-  status: 'Open' | 'Closed' | 'Pending';
-  openDate: string;
-  closeDate: string;
-  inspector: string;
-  secondInspector: string;
-  notions: string;
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -43,14 +32,14 @@ export class CaseService {
 
   // Selected document
   readonly selectedDocId = signal<string>('20932');
-  readonly selectedDoc = computed(() => 
+  readonly selectedDoc = computed(() =>
     this.documents().find(doc => doc.id === this.selectedDocId())
   );
 
   // Search criteria form state
   readonly searchCriteria = signal<SearchCriteria>({
     caseNo: '',
-    streetNo: '1441', // initialized with 1441 as in screenshot
+    streetNo: '',
     direction: '',
     streetName: '',
     type: '',
@@ -58,49 +47,15 @@ export class CaseService {
     apn: ''
   });
 
-  // Database of mock cases
-  private readonly caseDatabase: CaseResult[] = [
-    {
-      caseNo: '2025060023',
-      address: '1441 MICHIGAN AV',
-      program: 'Abandoned Shopping Carts',
-      status: 'Open',
-      openDate: '',
-      closeDate: '',
-      inspector: '',
-      secondInspector: '',
-      notions: 'Notions'
-    },
-    {
-      caseNo: '2025060024',
-      address: '1441 MICHIGAN AV',
-      program: 'Graffiti Abatement',
-      status: 'Closed',
-      openDate: '2026-05-12',
-      closeDate: '2026-05-20',
-      inspector: 'M. Harris',
-      secondInspector: 'J. Inspector',
-      notions: 'Graffiti cleaned from brick wall face.'
-    },
-    {
-      caseNo: '2025060085',
-      address: '1200 BROADWAY ST',
-      program: 'Overgrown Vegetation',
-      status: 'Open',
-      openDate: '2026-07-01',
-      closeDate: '',
-      inspector: 'K. Davis',
-      secondInspector: '',
-      notions: 'Overgrown lawn blockading adjacent pedestrian sidewalk.'
-    }
-  ];
+  // Raw mock database — kept as `any` for now
+  private readonly caseSearchDatabase: any[] = mockCaseData;
 
-  // Search results state
-  readonly searchResults = signal<CaseResult[]>([]);
+  // Search results state — raw JSON shape, typed as `any[]` for now
+  readonly searchResults = signal<any[]>([]);
   readonly isSearched = signal<boolean>(false);
-  readonly selectedCase = signal<CaseResult | null>(null);
+  readonly selectedCase = signal<any | null>(null);
 
-  // Tags & templates metadata
+  // Dropdown & metadata
   readonly directions = signal<string[]>(['N', 'S', 'E', 'W', 'NE', 'NW', 'SE', 'SW']);
   readonly types = signal<string[]>(['Trash/Carts', 'Graffiti', 'Overgrowth', 'Signage', 'Zoning']);
   readonly templates = signal<string[]>([
@@ -109,17 +64,16 @@ export class CaseService {
     'Case Closure Confirmation',
     'Standard Courtesy Warning'
   ]);
-  
+
   readonly caseTags = signal<string[]>(['DFX Tag', 'LF Tag', 'Urgent Review', 'Tenant Issue']);
   readonly selectedTags = signal<string[]>(['DFX Tag']);
   readonly selectedTemplate = signal<string>('');
 
   constructor() {
-    // Initial perform search to mimic screenshot having loaded result for '1441'
+    // Initial perform search to mimic screenshot having a loaded result
     this.performSearch();
   }
 
-  // Update search criteria field
   updateCriteria(key: keyof SearchCriteria, value: string) {
     this.searchCriteria.update(prev => ({
       ...prev,
@@ -127,15 +81,34 @@ export class CaseService {
     }));
   }
 
-  // Perform search based on criteria
   performSearch() {
     const criteria = this.searchCriteria();
-    
-    // Simple filter logic
-    const results = this.caseDatabase.filter(c => {
-      if (criteria.caseNo && !c.caseNo.includes(criteria.caseNo)) return false;
-      if (criteria.streetNo && !c.address.toLowerCase().includes(criteria.streetNo.toLowerCase())) return false;
-      if (criteria.streetName && !c.address.toLowerCase().includes(criteria.streetName.toLowerCase())) return false;
+
+    const results = this.caseSearchDatabase.filter((c: any) => {
+      if (criteria.caseNo && !c.caseNumber?.includes(criteria.caseNo)) {
+        return false;
+      }
+      if (criteria.streetNo && !c.caseaddress?.streetNumber?.includes(criteria.streetNo)) {
+        return false;
+      }
+      if (
+        criteria.streetName &&
+        !c.caseaddress?.streetName?.toLowerCase().includes(criteria.streetName.toLowerCase())
+      ) {
+        return false;
+      }
+      if (criteria.apn && !c.caseaddress?.apn?.includes(criteria.apn)) {
+        return false;
+      }
+      if (criteria.unitNo && !c.caseaddress?.unitNumber?.trim().includes(criteria.unitNo)) {
+        return false;
+      }
+      if (
+        criteria.direction &&
+        c.caseaddress?.streetDirection?.trim().toUpperCase() !== criteria.direction.toUpperCase()
+      ) {
+        return false;
+      }
       return true;
     });
 
@@ -143,14 +116,9 @@ export class CaseService {
     this.isSearched.set(true);
 
     // Auto-select first result if available
-    if (results.length > 0) {
-      this.selectedCase.set(results[0]);
-    } else {
-      this.selectedCase.set(null);
-    }
+    this.selectedCase.set(results.length > 0 ? results[0] : null);
   }
 
-  // Reset criteria and results
   resetSearch() {
     this.searchCriteria.set({
       caseNo: '',
@@ -166,9 +134,8 @@ export class CaseService {
     this.selectedCase.set(null);
   }
 
-  // Select a document
   selectDocument(docId: string) {
-    this.documents.update(docs => 
+    this.documents.update(docs =>
       docs.map(doc => ({
         ...doc,
         checked: doc.id === docId
@@ -177,18 +144,12 @@ export class CaseService {
     this.selectedDocId.set(docId);
   }
 
-  // Toggle tag selection
   toggleTag(tag: string) {
-    this.selectedTags.update(tags => {
-      if (tags.includes(tag)) {
-        return tags.filter(t => t !== tag);
-      } else {
-        return [...tags, tag];
-      }
-    });
+    this.selectedTags.update(tags =>
+      tags.includes(tag) ? tags.filter(t => t !== tag) : [...tags, tag]
+    );
   }
 
-  // Add a new custom tag
   addNewTag(tag: string) {
     const cleanTag = tag.trim();
     if (cleanTag && !this.caseTags().includes(cleanTag)) {
@@ -197,7 +158,6 @@ export class CaseService {
     }
   }
 
-  // Set selected template
   setTemplate(template: string) {
     this.selectedTemplate.set(template);
   }

@@ -1,24 +1,19 @@
 <div class="search-results-container">
-  <!-- Panel Header -->
   <div class="panel-header">
     <h3>Search Results</h3>
     <button class="collapse-icon" (click)="toggleCollapse()" [attr.aria-label]="isCollapsed() ? 'Expand' : 'Collapse'">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         @if (isCollapsed()) {
-          <!-- Down arrow: expand -->
           <polyline points="6 9 12 15 18 9"></polyline>
         } @else {
-          <!-- Up arrow: collapse -->
           <polyline points="18 15 12 9 6 15"></polyline>
         }
       </svg>
     </button>
   </div>
 
-  <!-- Collapsible Content: Toolbar + Table + Footer -->
   <div class="results-collapsible" [class.collapsed]="isCollapsed()">
 
-    <!-- Toolbar -->
     <div class="results-toolbar">
       <div class="show-per-page">
         Show
@@ -36,7 +31,6 @@
       </div>
     </div>
 
-    <!-- Table Container -->
     <div class="table-responsive">
       <table class="results-table">
         <thead>
@@ -58,25 +52,40 @@
               <td colspan="9" class="empty-state">No cases found. Enter query above and search.</td>
             </tr>
           } @else {
-            @for (item of results(); track item.caseNo) {
+            @for (item of results(); track item.id) {
               <tr
-                [class.selected]="selectedCase()?.caseNo === item.caseNo"
+                [class.selected]="selectedCase()?.id === item.id"
                 (click)="selectCase(item)">
-                <td class="bold-text">{{item.caseNo}}</td>
-                <td>{{item.address}}</td>
-                <td>{{item.program}}</td>
+                <td class="bold-text">{{ item.caseNumber }}</td>
                 <td>
-                  <span class="status-badge" [class]="item.status.toLowerCase()">
-                    <span class="badge-dot"></span>
-                    {{item.status}}
+                  {{ item.caseaddress?.streetNumber }}
+                  {{ item.caseaddress?.streetDirection }}
+                  {{ item.caseaddress?.streetName }}
+                  {{ item.caseaddress?.streetType }}
+                  @if (item.caseaddress?.unitNumber?.trim()) {
+                    #{{ item.caseaddress?.unitNumber?.trim() }}
+                  }
+                  <br />
+                  <span class="address-sub">
+                    {{ item.caseaddress?.city }}, {{ item.caseaddress?.state }} {{ item.caseaddress?.zip }}
                   </span>
                 </td>
-                <td>{{item.openDate}}</td>
-                <td>{{item.closeDate || ''}}</td>
-                <td>{{item.inspector}}</td>
-                <td>{{item.secondInspector || ''}}</td>
+                <td>{{ item.programcode || '-' }}</td>
                 <td>
-                  <button class="action-btn" (click)="viewLetter(item, $event)">
+                  <span class="status-badge" [class]="getStatusClass(item.casestatus)">
+                    <span class="badge-dot"></span>
+                    {{ getStatusLabel(item.casestatus) }}
+                  </span>
+                </td>
+                <td>{{ item.opendate ? (item.opendate | date:'MM/dd/yyyy') : '-' }}</td>
+                <td>{{ item.closedate ? (item.closedate | date:'MM/dd/yyyy') : '-' }}</td>
+                <td>{{ item.inspector1id ?? '-' }}</td>
+                <td>{{ item.inspector2id ?? '-' }}</td>
+                <td>
+                  <button
+                    class="action-btn"
+                    [disabled]="!getLatestLetterUrl(item)"
+                    (click)="viewLetter(item, $event)">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                       <polyline points="22,6 12,13 2,6"></polyline>
@@ -85,10 +94,10 @@
                   </button>
                 </td>
               </tr>
-              <tr class="notions-row" [class.selected]="selectedCase()?.caseNo === item.caseNo">
+              <tr class="notions-row" [class.selected]="selectedCase()?.id === item.id">
                 <td colspan="9">
                   <div class="notions-content">
-                    <p class="notions-text">{{item.notions || 'No notions.'}}</p>
+                    <p class="notions-text">{{ item.description || 'No notions.' }}</p>
                   </div>
                 </td>
               </tr>
@@ -98,10 +107,9 @@
       </table>
     </div>
 
-    <!-- Footer & Pagination -->
     <div class="results-footer">
       <div class="showing-count">
-        Showing {{results().length ? '1-' + results().length : '0'}} of {{results().length}} cases
+        Showing {{ results().length ? '1-' + results().length : '0' }} of {{ results().length }} cases
       </div>
 
       <div class="pagination-controls">
